@@ -26,6 +26,10 @@ describe('AppController (e2e)', () => {
     await app.close();
   });
 
+  afterAll(async () => {
+    await app.close();
+  });
+
   const gql = '/graphql';
 
   describe('verify user', () => {
@@ -46,20 +50,21 @@ describe('AppController (e2e)', () => {
         });
     });
 
-    it('return unverify user', async () => {
+    it('should fail verification', async () => {
       return request(app.getHttpServer())
         .post(gql)
         .send({
-          query: `mutation {verifyUser(payload: {user_bank_code: "058",user_account_name: "chukwebuka STANLEY",user_account_number: "0229960656"}){is_verified account_name account_number bank_code}}`,
+          query: `mutation {verifyUser(payload: {user_bank_code: "058",user_account_name: "Chukuebuka Stanley Okonko",user_account_number: "0229960656"}){is_verified account_name account_number bank_code}}`,
         })
         .expect(200)
-        .expect(({ body }) => {
-          expect(body.data.verifyUser).toEqual({
-            is_verified: false,
-            account_name: 'chukwebuka STANLEY'.toLowerCase(),
-            account_number: '0229960656',
-            bank_code: '058',
-          });
+        .expect((res) => {
+          expect(res.body.errors).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                message: 'Account name validation failed',
+              }),
+            ]),
+          );
         });
     });
   });
