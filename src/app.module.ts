@@ -27,7 +27,11 @@ import { AppResolver } from './app.resolver';
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'schema.gql'),
       introspection: true,
-      playground: true,
+      playground: {
+        settings: {
+          ['request.credentials']: 'same-origin',
+        },
+      },
     }),
     PaystackModule,
     UserModule,
