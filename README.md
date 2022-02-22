@@ -30,8 +30,8 @@ $ npm run test:e2e
 
 ```bash
 # local url
-localhost:<PORT>/graphql
+http://localhost:<PORT>/graphql
 
 # live url
-<heroku-url>:<PORT>/graphql
+https://bce-challenge.herokuapp.com/graphql
 ```
