@@ -39,7 +39,6 @@ export class PaystackService {
     const res = await this.httpService
       .request(this.option(HTTP_METHOD.GET, '/bank?country=nigeria'))
       .toPromise();
-    console.log(res.data);
     return res.data.data;
   }
 }

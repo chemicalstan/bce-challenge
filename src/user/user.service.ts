@@ -42,7 +42,10 @@ export class UserService {
       user_account_name,
       result.account_name.toLowerCase(),
     );
-    if (distance <= 2) payload.is_verified = true;
-    return this.create(payload);
+    if (distance <= 2) {
+      payload.is_verified = true;
+      return this.create(payload);
+    }
+    return payload;
   }
 }
