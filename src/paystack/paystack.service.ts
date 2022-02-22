@@ -1,28 +1,45 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import config from 'src/config';
-import { HttpMethod, HTTP_METHOD } from 'src/interfaces';
-import { ResolveAccountDto } from './paystack.dto';
+import { HttpMethod, HTTP_METHOD } from '../interfaces';
+import {
+  BankDetail,
+  ResolveAccountInput,
+  ResolveAccountResponse,
+} from './paystack.interfaces';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class PaystackService {
-  constructor(private httpService: HttpService) {}
+  constructor(
+    private httpService: HttpService,
+    private config: ConfigService,
+  ) {}
 
   private option(method: HttpMethod, path: string, data = {}) {
     return {
       port: 443,
-      url: `${config.paystack.url}${path}`,
+      url: `${this.config.get<string>('PAYSTACK_BASE_URL')}${path}`,
       method,
       data,
     };
   }
 
-  public async resolveAccountNumber(data: ResolveAccountDto) {
+  public async resolveAccountNumber(
+    data: ResolveAccountInput,
+  ): Promise<ResolveAccountResponse> {
     const option = this.option(
       HTTP_METHOD.GET,
-      `/bank/resolve?account_number=${data.accountNumber}&bank_code=${data.bankCode}`,
+      `/bank/resolve?account_number=${data.account_number}&bank_code=${data.bank_code}`,
     );
     const res = await this.httpService.request(option).toPromise();
+    return res.data.data;
+  }
+
+  public async listBanks(): Promise<BankDetail> {
+    const res = await this.httpService
+      .request(this.option(HTTP_METHOD.GET, '/bank?country=nigeria'))
+      .toPromise();
+    console.log(res.data);
     return res.data.data;
   }
 }

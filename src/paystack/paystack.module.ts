@@ -1,12 +1,19 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { PaystackService } from './paystack.service';
-import config from 'src/config';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    HttpModule.register({
-      headers: { Authorization: `Bearer ${config.paystack.secret}` },
+    HttpModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => {
+        return {
+          headers: {
+            Authorization: `Bearer ${config.get<string>('PAYSTACK_SECRET')}`,
+          },
+        };
+      },
     }),
   ],
   providers: [PaystackService],
