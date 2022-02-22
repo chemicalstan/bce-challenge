@@ -26,22 +26,6 @@ import { AppResolver } from './app.resolver';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'schema.gql'),
-      formatError: (error) => {
-        const graphQLFormattedError = {
-          statusCode:
-            // @ts-ignore
-            error.extensions?.response?.statusCode || error.extensions?.code,
-          message:
-            // @ts-ignore
-            error.extensions?.response?.message ||
-            // @ts-ignore
-            error.extensions?.exception?.response?.message ||
-            error.message,
-          timestamp: new Date().toISOString(),
-          path: error.path,
-        };
-        return graphQLFormattedError;
-      }, // This formats gql error response
       sortSchema: true,
       playground: true,
     }),
