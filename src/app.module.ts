@@ -26,7 +26,7 @@ import { AppResolver } from './app.resolver';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'schema.gql'),
-      sortSchema: true,
+      introspection: true,
       playground: true,
     }),
     PaystackModule,
