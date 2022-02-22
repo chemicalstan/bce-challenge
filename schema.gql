@@ -2,15 +2,19 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type BankDetail {
-  code: String!
-  country: String!
-  name: String!
-  slug: String!
+type User {
+  _id: ID!
+  account_name: String!
+  account_number: String!
+  bank_code: String!
+  is_verified: Boolean!
 }
 
-type Mutation {
-  verifyUser(payload: VerifyUserInput!): User!
+type BankDetail {
+  code: String!
+  name: String!
+  slug: String!
+  country: String!
 }
 
 type Query {
@@ -23,16 +27,12 @@ input QueryUserInput {
   bank_code: String!
 }
 
-type User {
-  _id: ID!
-  account_name: String!
-  account_number: String!
-  bank_code: String!
-  is_verified: Boolean!
+type Mutation {
+  verifyUser(payload: VerifyUserInput!): User!
 }
 
 input VerifyUserInput {
-  user_account_name: String!
   user_account_number: String!
   user_bank_code: String!
+  user_account_name: String!
 }
