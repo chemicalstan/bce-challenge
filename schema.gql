@@ -1,0 +1,38 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type BankDetail {
+  code: String!
+  country: String!
+  name: String!
+  slug: String!
+}
+
+type Mutation {
+  verifyUser(payload: VerifyUserInput!): User!
+}
+
+type Query {
+  listBanks: [BankDetail!]!
+  queryUser(payload: QueryUserInput!): String!
+}
+
+input QueryUserInput {
+  account_number: String!
+  bank_code: String!
+}
+
+type User {
+  _id: ID!
+  account_name: String!
+  account_number: String!
+  bank_code: String!
+  is_verified: Boolean!
+}
+
+input VerifyUserInput {
+  user_account_name: String!
+  user_account_number: String!
+  user_bank_code: String!
+}
