@@ -27,7 +27,7 @@ export class UserResolver {
       }
       return titleCase(user.account_name);
     } catch (error) {
-      throw error.message;
+      throw error;
     }
   }
 

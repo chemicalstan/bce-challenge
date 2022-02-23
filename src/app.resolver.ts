@@ -9,7 +9,6 @@ export class AppResolver {
   @Query(() => [BankDetail])
   async listBanks() {
     try {
-      console.log('hahah');
       return await this.paystackService.listBanks();
     } catch (error) {
       throw error.message;
